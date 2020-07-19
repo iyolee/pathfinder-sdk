@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pathfinder-sdk</title>
+</head>
+<body>
+  <h2 style="text-align: center;">pathfinder-sdk example</h2>
+  <button onclick="onClickImageError()">监控图片资源加载错误</button>
+  <button onclick="onClickJSError()">监控JS运行时错误</button>
+  <button onclick="onClickThrowError()">监控throw错误</button>
+  <button onclick="onClickPromiseError()">监控promise rejected</button>
+  <button onclick="onClickVueError()">监控Vue错误</button>
+  <div class="img-container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <script src="../dist/pathfinder-sdk_v1.0.0.js"></script>
+  <script>
+    function onClickImageError() {
+      var img = document.createElement('img');
+      var imgEle = document.querySelector('.img-container');
+      img.src = 'text.png';
+      img.alt = '图片加载失败';
+      imgEle.appendChild(img);
+    }
+
+    function onClickJSError() {
+      a.b();
+    }
+
+    function onClickThrowError() {
+      throw 'this is a error';
+    }
+
+    function onClickPromiseError() {
+      new Promise(() => {
+        throw 'this is a error';
+      });
+    }
+
+    function onClickVueError() {
+      var vm = new Vue({
+        data: { a: 1 },
+        created () {
+          throw 'this is vue error';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
