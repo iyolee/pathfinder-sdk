@@ -1,4 +1,4 @@
-export function handleWindowError(_window, handleError, ctx) {
+export function handleWindowError(_window, handleError) {
   _window.onerror = (msg, url, line, col, error) => {
     if (/Script error/.test(msg)) {
       handleError({
@@ -6,7 +6,7 @@ export function handleWindowError(_window, handleError, ctx) {
         msg: 'Script error',
         category: 'js',
         level: 'error'
-      }, ctx);
+      });
       return;
     }
     if (error && error.stack) {
@@ -15,7 +15,7 @@ export function handleWindowError(_window, handleError, ctx) {
         msg: error.stack,
         category: 'js',
         level: 'error'
-      }, ctx);
+      });
     } else {
       handleError({
         title: msg,
@@ -26,12 +26,12 @@ export function handleWindowError(_window, handleError, ctx) {
         }),
         category: 'js',
         level: 'error'
-      }, ctx);
+      });
     }
   }
 }
 
-export function handleRejectedPromise(_window, handleError, ctx) {
+export function handleRejectedPromise(_window, handleError) {
   _window.addEventListener('unhandledrejection', event => {
     if (event) {
       const reason = event.reason || '';
@@ -40,12 +40,12 @@ export function handleRejectedPromise(_window, handleError, ctx) {
         msg: reason,
         category: 'js',
         level: 'error'
-      }, ctx);
+      });
     }
   })
 }
 
-export function handleResourceError(_window, handleError, ctx) {
+export function handleResourceError(_window, handleError) {
   _window.addEventListener('error', event => {
     if (event) {
       const target = event.target || event.srcElement;
@@ -58,25 +58,25 @@ export function handleResourceError(_window, handleError, ctx) {
         msg: url,
         category: 'resource',
         level: 'error'
-      }, ctx);
+      });
     }
   }, true)
 }
 
-export function handleConsoleError(_window, handleError, ctx) {
+export function handleConsoleError(_window, handleError) {
   if (!_window.console || !_window.console.error) return;
 
-    _window.console.error = (...args) => {
-      handleError({
-        title: 'consoleError',
-        msg: JSON.stringify(args.join(',')),
-        category: 'js',
-        level: 'error'
-      }, ctx);
-    };
+  _window.console.error = (...args) => {
+    handleError({
+      title: 'consoleError',
+      msg: JSON.stringify(args.join(',')),
+      category: 'js',
+      level: 'error'
+    });
+  };
 }
 
-export function handleVueError(_window, handleError, ctx) {
+export function handleVueError(_window, handleError) {
   const vue = _window.Vue;
   if (!vue || !vue.config) return;
 
@@ -96,7 +96,7 @@ export function handleVueError(_window, handleError, ctx) {
       msg: errMsg,
       category: 'js',
       level: 'error'
-    }, ctx);
+    });
   };
 
   Vue.config.errorHandler = VueErrorHandler;

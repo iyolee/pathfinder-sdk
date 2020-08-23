@@ -43,20 +43,20 @@ class Pathfinder {
   registerError(_window) {
     const { jsError, resourceError, vueError } = this.config;
     if (jsError) {
-      handleWindowError(_window, this.handleError, this);
-      handleRejectedPromise(_window, this.handleError, this);
+      handleWindowError.call(this, _window, this.handleError);
+      handleRejectedPromise.call(this, _window, this.handleError);
     }
     if (resourceError) {
-      handleResourceError(_window, this.handleError, this);
+      handleResourceError.call(this, _window, this.handleError);
     }
     if (vueError) {
-      handleVueError(_window, this.handleError, this);
+      handleVueError.call(this, _window, this.handleError);
     }
   }
-  handleError(errorObj, ctx) {
-    const { autoReport } = ctx.config;
+  handleError(errorObj) {
+    const { autoReport } = this.config;
     if (autoReport) {
-      ctx.sendError(errorObj);
+      sendError.call(this, errorObj);
     }
     // ctx.errorStack.push(errorObj);
   }
